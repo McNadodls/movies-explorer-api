@@ -2,10 +2,10 @@
   "name": "movies-explorer-api",
   "version": "1.0.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
+    "start": "nodemon app.js",
     "dev": "nodemon app.js",
     "lint": "npx eslint .",
     "fixLint": "npx eslint . --fix"
