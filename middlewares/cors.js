@@ -1,7 +1,7 @@
 module.exports.options = {
   origin: [
     'http://localhost:3000',
-    'https://mesto.mcnad.nomoredomains.club',
+    'https://api.mcnad.movie.nomoredomains.club',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   preflightContinue: false,
