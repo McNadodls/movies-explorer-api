@@ -64,7 +64,7 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
-  const { password, email } = req.body;
+  const { email, password } = req.body;
 
   User.findUserCredentials(email, password) // кастомный метод
     .then((user) => {
