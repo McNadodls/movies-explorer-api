@@ -12,11 +12,12 @@ const auth = require('../middlewares/auth');
 router.post('/signup', signupValidation, createUser);
 router.post('/signin', signinValidation, login);
 router.post('/signout', signout);
+router.use('/users', userRouter);
 
 // защита auth
 router.use(auth);
 
-router.use('/users', userRouter);
+
 router.use('/movies', movieRouter);
 
 router.use(errors({
