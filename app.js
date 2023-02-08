@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const { options } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-app.use('*', cors(options));
+app.use(cors({ credentials: true, origin: 'mcnad.movie.nomoredomainsclub.ru' }));
 
 // подключене к базе
 app.use(express.json());
