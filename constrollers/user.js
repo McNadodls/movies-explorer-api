@@ -66,18 +66,31 @@ module.exports.createUser = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
-  User.findUserCredentials(email, password) // кастомный метод
-    .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
-      res.cookie('jwt', token, { // Передаем токен
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: true,
+  User.findOne({ email }).select('+password')
+  .then((user) => {
+    if (!user) {
+      return Promise.reject(new Unauthorized('Неправильные почта или пароль'));
+    }
+
+    return bcrypt.compare(password, user.password)
+      .then((matched) => {
+        if (!matched) {
+          return Promise.reject(new Unauthorized('Неправильные почта или пароль'));
+        }
+        return user;
       });
-      const userObj = user.toObject(); // преобразуем user в объект
-      delete userObj.password; // не возвращаем пароль
-      res.send(userObj);
-    })
+  })
+  .then((user) => {
+    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' });
+    res.cookie('jwt', token, {
+      maxAge: 3600000 * 24 * 7,
+      httpOnly: true,
+      sameSite: true,
+    });
+    const userObj = user.toObject();
+    delete userObj.password;
+    res.send(userObj);
+  })
     .catch(next);
 };
 
