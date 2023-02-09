@@ -72,7 +72,8 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, { // Передаем токен
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        sameSite: true,
+        sameSite: false,
+        secure: true,
       });
       const userObj = user.toObject(); // преобразуем user в объект
       delete userObj.password; // не возвращаем пароль
