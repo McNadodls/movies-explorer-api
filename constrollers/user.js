@@ -72,7 +72,7 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, { // Передаем токен
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        sameSite: false,
+        sameSite: none,
       });
       const userObj = user.toObject(); // преобразуем user в объект
       delete userObj.password; // не возвращаем пароль
@@ -85,7 +85,7 @@ module.exports.signout = (req, res) => {
   res.cookie('jwt', '', {
     maxAge: 0,
     httpOnly: true,
-    ssameSite: false,
+    sameSite: none,
   });
   res.send({ message: 'Complete' });
 };
