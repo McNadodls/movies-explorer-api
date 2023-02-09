@@ -22,7 +22,7 @@ const { notFoundMsgPage } = require('../middlewares/constants');
 */
 router.post('/signup', createAccountLimiter, signupValidation, createUser);
 router.post('/signin', signinValidation, signin);
-
+router.post('/signout', signout);
 // Все что ниже защищено auth
 router.use(auth);
 
@@ -32,7 +32,7 @@ router.use(auth);
  Если прописать до auth, то приложение будет быстрее,
  Но ради соответствия заданию прописал ее ниже.
  */
-router.post('/signout', signout);
+
 router.use('/users', usersRouter);
 router.use('/movies', moviesRouter);
 

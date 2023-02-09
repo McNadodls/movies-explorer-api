@@ -20,13 +20,13 @@ const app = express();
  * Используем модуль cors чтобы разрешить кроссдоменные запросы
  * Опции в отдельном файле
  */
-app.use(cors({ credentials: true, origin: ['https://mcnad.movie.nomoredomainsclub.ru', 'https://localhost:3000'] }));
+app.use(cors({ credentials: true, origin: 'https://mcnad.movie.nomoredomainsclub.ru'}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /* Подключение к DB */
-mongoose.connect(NODE_ENV === 'production' ? CONNECT_DB : 'mongodb://localhost:27017/moviedb');
+mongoose.connect(NODE_ENV === 'production' ? CONNECT_DB : 'mongodb://0.0.0.0:27017/moviesdb');
 
 /* Logs */
 app.use(requestLogger);
