@@ -12,7 +12,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 /* env */
 require('dotenv').config();
 // обращение к файлу .env
-const { PORT = 2020, CONNECT_DB, NODE_ENV } = process.env; // Забираем из .env
+const { PORT = 3000, CONNECT_DB, NODE_ENV } = process.env; // Забираем из .env
 
 const app = express();
 
