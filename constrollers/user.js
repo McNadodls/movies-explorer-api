@@ -68,7 +68,7 @@ module.exports.login = (req, res, next) => {
 
   User.findUserByCredentials(email, password) // кастомный метод
   .then((user) => {
-    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : devSecurityKey, { expiresIn: '7d' }); // Создаем токен
+    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
     res.cookie('jwt', token, { // Передаем токен юзеру
       maxAge: 3600000 * 24 * 7, // 7 дней срок
       // httpOnly: true, // из js закрыли доступ
