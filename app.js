@@ -20,7 +20,7 @@ const app = express();
  * Используем модуль cors чтобы разрешить кроссдоменные запросы
  * Опции в отдельном файле
  */
-app.use(cors({ credentials: true, origin: ['https://movies-explorer.eshenok.nomoredomains.club', 'https://localhost:3000'] }));
+app.use(cors({ credentials: true, origin: ['https://mcnad.movie.nomoredomainsclub.ru', 'https://localhost:3000'] }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
