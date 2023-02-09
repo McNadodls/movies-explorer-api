@@ -29,6 +29,6 @@ app.use('/', require('./routes/index'));
 
 app.use(errorLogger);
 
-app.use(require('./errors/centralizedErrorHandling'));
+// app.use(require('./errors/centralizedErrorHandling'));
 
 app.listen(PORT);

@@ -66,7 +66,7 @@ module.exports.createUser = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials(email, password) // кастомный метод
+  User.findUserCredentials(email, password) // кастомный метод
   .then((user) => {
     const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
     res.cookie('jwt', token, { // Передаем токен юзеру
