@@ -75,7 +75,7 @@ module.exports.signin = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : devSecurityKey, { expiresIn: '7d' }); // Создаем токен
       res.cookie('jwt', token, { // Передаем токен юзеру
-        maxAge: 3600000 * 24 * 7, // 7 дней срок
+        maxAge: 604800000, // 7 дней срок
         // httpOnly: true, // из js закрыли доступ
         sameSite: true, // посылать если запрос сделан с того же домена
       });
