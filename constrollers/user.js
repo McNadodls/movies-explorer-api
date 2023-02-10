@@ -76,9 +76,9 @@ module.exports.login = (req, res, next) => {
     //   sameSite: true, // посылать если запрос сделан с того же домена
     // });
     // // Изменяем user из JSON в JSObj и удаляем поле пароля
-    // const userObj = user.toObject();
-    // delete userObj.password;
-    // res.send(userObj);
+    const userObj = user.toObject();
+    delete userObj.password;
+    res.send(userObj);
   })
   .catch(next);
 };
