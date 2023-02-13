@@ -3,7 +3,7 @@ const { getSavedMovies, createMovie, deleteMovie } = require('../constrollers/mo
 const { createMovieValidation, idValidation } = require('../middlewares/validation');
 
 movieRouter.get('/', getSavedMovies);
-movieRouter.patch('/', createMovieValidation, createMovie);
+movieRouter.post('/', createMovieValidation, createMovie);
 movieRouter.delete('/:id', idValidation, deleteMovie);
 
 module.exports = movieRouter;
