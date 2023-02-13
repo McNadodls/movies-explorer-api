@@ -84,8 +84,7 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.signout = (req, res) => {
-  const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '0' });
-  res.setHeader('Set-Cookie',[`jwt=${token};  Path=/; maxAge=0;SameSite=None;Secure=true;`]);
+  res.setHeader("Set-Cookie", ["token=; HttpOnly; path=/; max-age=0"]);
   // res.cookie('jwt', '', {
   //   maxAge: 0,
   //   httpOnly: true,

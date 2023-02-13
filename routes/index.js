@@ -11,11 +11,11 @@ const auth = require('../middlewares/auth');
 
 router.post('/signup', signupValidation, createUser);
 router.post('/signin', signinValidation, login);
+router.post('/signout', signout);
 
 
 // защита auth
 router.use(auth);
-router.post('/signout', signout);
 router.use('/users', userRouter);
 router.use('/movies', movieRouter);
 
