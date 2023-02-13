@@ -84,9 +84,10 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.signout = (req, res) => {
-  res.cookie('jwt', '', {
-    maxAge: 0,
-    httpOnly: true,
-  });
+  res.setHeader('Set-Cookie',[`jwt=${token};  Path=/;HttpOnly; maxAge=0;SameSite=None;Secure=true;`]);
+  // res.cookie('jwt', '', {
+  //   maxAge: 0,
+  //   httpOnly: true,
+  // });
   res.send({ message: 'Complete' });
 };
