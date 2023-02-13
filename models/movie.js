@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { patternUrl } = require('../middlewares/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
