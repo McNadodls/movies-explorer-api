@@ -25,17 +25,14 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    match: patternUrl,
   },
   trailerLink: {
     type: String,
     required: true,
-    match: patternUrl,
   },
   thumbnail: {
     type: String,
     required: true,
-    match: patternUrl,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
