@@ -67,20 +67,20 @@ module.exports.createUser = (req, res, next) => {
       }
     });
 };
-
-module.exports.login = (req, res, next) => {
+module.exports.signin = (req, res, next) => {
   const { password, email } = req.body;
 
-  User.findUserCredentials(email, password) // кастомный метод
+  User.findUserByCredentials(email, password) // кастомный метод
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
-      res.cookie('jwt', token, { // Передаем токен
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: true,
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : devSecurityKey, { expiresIn: '7d' }); // Создаем токен
+      res.cookie('jwt', token, { // Передаем токен юзеру
+        maxAge: 3600000 * 24 * 7, // 7 дней срок
+        // httpOnly: true, // из js закрыли доступ
+        sameSite: true, // посылать если запрос сделан с того же домена
       });
-      const userObj = user.toObject(); // преобразуем user в объект
-      delete userObj.password; // не возвращаем пароль
+      // Изменяем user из JSON в JSObj и удаляем поле пароля
+      const userObj = user.toObject();
+      delete userObj.password;
       res.send(userObj);
     })
     .catch(next);
