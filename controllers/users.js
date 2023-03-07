@@ -67,33 +67,35 @@ module.exports.createUser = (req, res, next) => {
       }
     });
 };
-module.exports.signin = (req, res, next) => {
-  const { password, email } = req.body;
+module.exports.login = (req, res, next) => {
+  const { email, password } = req.body;
 
-  User.findUserByCredentials(email, password) // кастомный метод
-    .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : devSecurityKey, { expiresIn: '7d' }); // Создаем токен
-      res.cookie('jwt', token, { // Передаем токен юзеру
-        maxAge: 3600000 * 24 * 7, // 7 дней срок
-        // httpOnly: true, // из js закрыли доступ
-        sameSite: true, // посылать если запрос сделан с того же домена
-      });
-      // Изменяем user из JSON в JSObj и удаляем поле пароля
-      const userObj = user.toObject();
-      delete userObj.password;
-      res.send(userObj);
-    })
-    .catch(next);
+  User.findUserCredentials(email, password) // кастомный метод
+  .then((user) => {
+    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
+    res.setHeader('Set-Cookie',[`jwt=${token};  Path=/docs;HttpOnly; maxAge=86400000;SameSite=None;Secure=true;`]);
+    // res.cookie('jwt', token, { // Передаем токен юзеру
+    //   maxAge: 3600000 * 24 * 7, // 7 дней срок
+    //   // httpOnly: true, // из js закрыли доступ
+    //   sameSite: true, // посылать если запрос сделан с того же домена
+    // });
+    // // Изменяем user из JSON в JSObj и удаляем поле пароля
+    const userObj = user.toObject();
+    delete userObj.password;
+    res.send(userObj);
+  })
+  .catch(next);
 };
 
 module.exports.signout = (req, res) => {
-  res.cookie('jwt', '', {
-    maxAge: 0,
-    httpOnly: true,
-    sameSite: true,
-  });
+  res.setHeader('Set-Cookie', [`jwt=null;  Path=/;HttpOnly; maxAge=0;SameSite=None;Secure=true;`]);
+  // res.cookie('jwt', '', {
+  //   maxAge: 0,
+  //   httpOnly: true,
+  // });
   res.send({ message: 'Complete' });
 };
+
 
 // module.exports.signin = (req, res, next) => {
 //   const { password, email } = req.body;
