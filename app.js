@@ -13,7 +13,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // app.use('*', cors(options));
 
-app.use(cors({ credentials: true, origin: 'https://mcnad.movie.nomoredomainsclub.ru'}));
+app.use(cors({ credentials: true, origin: 'https://mcnad.movie.nomoredomains.work'}));
 
 // подключене к базе
 app.use(express.json());
