@@ -54,9 +54,9 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new Conflict());
+        next(new Conflict('Такой пользователь уже существует'));
       } else if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequest());
+        next(new BadRequest('Неправильные данные'));
       } else {
         next(err);
       }
@@ -81,14 +81,12 @@ module.exports.login = (req, res, next) => {
       });
   })
   .then((user) => {
-    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
-    res.setHeader('Set-Cookie',[`jwt=${token}; Domain=mcnad.movie.nomoredomains.work; Path=/; HttpOnly; Expires=Mon, 1 Jan 2024 00:00:00 GMT; SameSite=None; Secure=true;`]);
-    // res.cookie('jwt', token, { // Передаем токен юзеру
-    //   maxAge: 3600000 * 24 * 7, // 7 дней срок
-    //   // httpOnly: true, // из js закрыли доступ
-    //   sameSite: true, // посылать если запрос сделан с того же домена
-    // });
-    // // Изменяем user из JSON в JSObj и удаляем поле пароля
+    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' });
+    res.cookie('jwt', token, {
+      maxAge: 3600000 * 24 * 7,
+      httpOnly: true,
+      sameSite: true,
+    });
     const userObj = user.toObject();
     delete userObj.password;
     res.send(userObj);
@@ -104,3 +102,12 @@ module.exports.signout = (req, res) => {
   // });
   res.send({ message: 'Complete' });
 };
+
+// const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
+//     res.setHeader('Set-Cookie',[`jwt=${token}; Domain=mcnad.movie.nomoredomains.work; Path=/; HttpOnly; Expires=Mon, 1 Jan 2024 00:00:00 GMT; SameSite=None; Secure=true;`]);
+//     // res.cookie('jwt', token, { // Передаем токен юзеру
+//     // });
+//     // // Изменяем user из JSON в JSObj и удаляем поле пароля
+//     const userObj = user.toObject();
+//     delete userObj.password;
+//     res.send(userObj);
