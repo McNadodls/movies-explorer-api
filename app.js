@@ -8,12 +8,23 @@ const app = express();
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-// const { options } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-// app.use('*', cors(options));
+const options = {
+    origin: [
+      'http://localhost:3000',
+      'https://https://mcnad.movie.nomoredomains.work'
+    ],
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+    credentials: true,
+  };
 
-app.use(cors({ credentials: true, origin: 'https://mcnad.movie.nomoredomains.work'}));
+app.use('*', cors(options));
+
+// app.use(cors({ credentials: true, origin: 'https://mcnad.movie.nomoredomains.work'}));
 
 // подключене к базе
 app.use(express.json());
