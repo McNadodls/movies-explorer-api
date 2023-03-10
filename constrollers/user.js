@@ -53,7 +53,7 @@ module.exports.createUser = (req, res, next) => {
     const userObj = user.toObject();
     userObj["token"] = token;
     delete userObj.password;
-    res.send({userObj});
+    res.send(userObj);
     })
     .catch((err) => {
       if (err.code === 11000) {
@@ -76,7 +76,7 @@ module.exports.login = (req, res, next) => {
     const userObj = user.toObject();
     userObj["token"] = token;
     delete userObj.password;
-    res.send({userObj});
+    res.send(userObj);
   })
   .catch(next);
 };
