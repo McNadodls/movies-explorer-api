@@ -48,9 +48,12 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
-      const userObj = user.toObject(); // преобразуем user в объект
-      delete userObj.password; // не возвращаем пароль
-      res.send(userObj);
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
+    
+    const userObj = user.toObject();
+    userObj["token"] = token;
+    delete userObj.password;
+    res.send({userObj});
     })
     .catch((err) => {
       if (err.code === 11000) {
