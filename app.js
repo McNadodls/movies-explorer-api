@@ -13,7 +13,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const options = {
     origin: [
       'http://localhost:3000',
-      'https://https://mcnad.movie.nomoredomains.work'
+      'https://mcnad.movie.nomoredomains.work'
     ],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     preflightContinue: false,
