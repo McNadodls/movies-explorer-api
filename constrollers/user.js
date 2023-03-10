@@ -81,10 +81,8 @@ module.exports.login = (req, res, next) => {
       });
   })
   .then((user) => {
-    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' });
-    res.setHeader('Set-Cookie',[`jwt=${token};`]);
-
-    // res.cookie('jwt', token, );
+    const token = jwt.sign({ _id: user._id }, );
+    res.cookie('jwt', token, );
     const userObj = user.toObject();
     delete userObj.password;
     res.send(userObj);
