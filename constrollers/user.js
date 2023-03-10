@@ -71,8 +71,9 @@ module.exports.login = (req, res, next) => {
     const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
     
     const userObj = user.toObject();
+    userObj["token"] = token;
     delete userObj.password;
-    res.send({userObj, token});
+    res.send({userObj});
   })
   .catch(next);
 };
