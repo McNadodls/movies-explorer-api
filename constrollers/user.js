@@ -66,26 +66,13 @@ module.exports.createUser = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
-  User.findOne({ email }).select('+password')
-    .then((user) => {
-      if (!user) {
-        return Promise.reject(new Unauthorized('Неправильные почта или пароль'));
-      }
-
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new Unauthorized('Неправильные почта или пароль'));
-          }
-          return user;
-      });
-  })
+  User.findUserCredentials(email, password) // кастомный метод
   .then((user) => {
-    const token = jwt.sign({ _id: user._id }, );
-    res.cookie('jwt', token, );
+    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
+    
     const userObj = user.toObject();
     delete userObj.password;
-    res.send(userObj);
+    res.send({userObj, token});
   })
   .catch(next);
 };
@@ -98,12 +85,3 @@ module.exports.signout = (req, res) => {
   // });
   res.send({ message: 'Complete' });
 };
-
-// const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : secretKey, { expiresIn: '7d' }); // Создаем токен
-//     res.setHeader('Set-Cookie',[`jwt=${token}; Domain=mcnad.movie.nomoredomains.work; Path=/; HttpOnly; Expires=Mon, 1 Jan 2024 00:00:00 GMT; SameSite=None; Secure=true;`]);
-//     // res.cookie('jwt', token, { // Передаем токен юзеру
-//     // });
-//     // // Изменяем user из JSON в JSObj и удаляем поле пароля
-//     const userObj = user.toObject();
-//     delete userObj.password;
-//     res.send(userObj);
