@@ -6,14 +6,14 @@ const { PORT = 3000, CONNECT_DB, NODE_ENV } = process.env;
 
 const app = express();
 
-const cors = require('cors');
+// const cors = require('cors');
 const cookieParser = require('cookie-parser');
 // const { options } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // app.use('*', cors(options));
 
-app.use(cors({ credentials: true, origin: 'https://mcnad.movie.nomoredomains.work'}));
+// app.use(cors({ credentials: true, origin: 'https://mcnad.movie.nomoredomains.work'}));
 
 // подключене к базе
 app.use(express.json());
@@ -29,6 +29,6 @@ app.use('/', require('./routes/index'));
 
 app.use(errorLogger);
 
-// app.use(require('./errors/centralizedErrorHandling'));
+app.use(require('./errors/centralizedErrorHandling'));
 
 app.listen(PORT);

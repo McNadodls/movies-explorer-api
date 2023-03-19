@@ -1,7 +1,7 @@
 module.exports.options = {
   origin: [
     'http://localhost:3000',
-    'https://mcnad.movie.nomoredomainsclub.ru',
+    'http://mcnad.movie.nomoredomains.work',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   preflightContinue: false,
