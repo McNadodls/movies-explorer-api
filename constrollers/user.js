@@ -27,7 +27,9 @@ module.exports.updateUser = (req, res, next) => {
     })
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.code === 11000) {
+        next(new Conflict());
+      } else if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new BadRequest());
       } else {
         next(err);
@@ -57,9 +59,9 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new Conflict('Такой пользователь уже существует'));
+        next(new Conflict());
       } else if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequest('Неправильные данные'));
+        next(new BadRequest());
       } else {
         next(err);
       }
